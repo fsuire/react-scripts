@@ -18,6 +18,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const applyCustomTransformation = require('./utils/applyCustomTransformation')('webpack.config.prod.js')
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
@@ -57,7 +58,7 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
-module.exports = {
+module.exports = applyCustomTransformation({
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -363,4 +364,4 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty',
   },
-};
+});
