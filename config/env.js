@@ -65,6 +65,16 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 // injected into the application via DefinePlugin in Webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+// Make sure the REACT_SCRIPTS_CONFIG env, if present, is a well formed path
+process.env.REACT_SCRIPTS_CONFIG = (() => {
+  let REACT_SCRIPTS_CONFIG = process.env.REACT_SCRIPTS_CONFIG
+  if(REACT_SCRIPTS_CONFIG) {
+    REACT_SCRIPTS_CONFIG = path.isAbsolute(REACT_SCRIPTS_CONFIG)
+      ? REACT_SCRIPTS_CONFIG : path.resolve(appDirectory, REACT_SCRIPTS_CONFIG)
+  }
+  return REACT_SCRIPTS_CONFIG
+})()
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))
